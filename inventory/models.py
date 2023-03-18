@@ -21,7 +21,7 @@ class Stock(models.Model):
     
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        link = "http://127.0.0.1:8000"+"/inventory/stock/"+str(self.id)+"/edit"
+        link = "https://qr-system.onrender.com"+"/inventory/stock/"+str(self.id)+"/edit"
         qrcode_img = qrcode.make(link)
         canvas = Image.new('RGB', (400,400), 'white')
         draw = ImageDraw.Draw(canvas)
