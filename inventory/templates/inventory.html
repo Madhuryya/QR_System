@@ -58,8 +58,8 @@
                     <td class="align-middle">{{ stock.placedAt }}</td>
                     <td class="align-middle"><img style="width: 150px;" src="/media/{{stock.img}}" alt="none"></td>
                     <td class="align-middle">
-                        <a href="{% url 'edit-stock' stock.pk %}" class="btn btn-info btn-sm">Edit Details</a>
-                        <a href="{% url 'delete-stock' stock.pk %}" class="btn btn-danger btn-sm"> Delete Equipment </a>
+                        <a href="{% url 'edit-stock' stock.pk %}" class="btn btn-info btn-sm">View Details</a>
+                        {% comment %} <a href="{% url 'delete-stock' stock.pk %}" class="btn btn-danger btn-sm"> Delete Equipment </a> {% endcomment %}
                     </td>          
                 </tr>
             {% endfor %}                   

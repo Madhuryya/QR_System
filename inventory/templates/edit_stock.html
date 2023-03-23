@@ -44,12 +44,12 @@
         <div class="align-middle">
             <button type="submit" class="btn btn-success">{{ savebtn }}</button>
             {% if title == "New Stock" %}
-                <button type="reset" class="btn btn-danger" >Reset</button>
+                {% comment %} <button type="reset" class="btn btn-danger" >Reset</button> {% endcomment %}
             {% endif %}
             {% if delbtn %}
-                <a href="{% url 'delete-stock' object.pk %}" class="btn  btn-danger"> Delete Equipment </a>
+                {% comment %} <a href="{% url 'delete-stock' object.pk %}" class="btn  btn-danger"> Delete Equipment </a> {% endcomment %}
             {% endif %}
-            <a href="{% url 'inventory' %}" class="btn btn-secondary">Cancel</a>
+            {% comment %} <a href="{% url 'inventory' %}" class="btn btn-secondary">Cancel</a> {% endcomment %}
         </div>
         
     </form><!-- Log on to codeastro.com for more projects -->
