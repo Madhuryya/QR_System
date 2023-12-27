@@ -1,3 +1,5 @@
+from typing import Any
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import (
     View,
@@ -10,7 +12,8 @@ from .models import Stock
 from .forms import StockForm
 from django_filters.views import FilterView
 from .filters import StockFilter
-
+from django.views.generic import DetailView
+from .forms import StockForm
 
 class StockListView(FilterView):
     filterset_class = StockFilter
@@ -26,12 +29,22 @@ class StockCreateView(SuccessMessageMixin, CreateView):                         
     success_url = '/inventory'                                                          # redirects to 'inventory' page in the url after submitting the form
     success_message = "Stock has been created successfully"                             # displays message when form is submitted
 
+    def post(self,request):
+        form=StockForm(self.request.POST)
+        if form.is_valid():
+            print(form.data)
+            form.save() 
+        else:
+            return HttpResponse(content='error')
+        
+        
+        
     def get_context_data(self, **kwargs):                                               # used to send additional context
         context = super().get_context_data(**kwargs)
         context["title"] = 'New Stock'
         context["savebtn"] = 'Add to Inventory'
-        return context       
-
+        return context    
+    
 
 class StockUpdateView(SuccessMessageMixin, UpdateView):                                 # updateview class to edit stock, mixin used to display message
     model = Stock                                                                       # setting 'Stock' model as model
@@ -46,6 +59,8 @@ class StockUpdateView(SuccessMessageMixin, UpdateView):                         
         context["savebtn"] = 'Update Stock'
         context["delbtn"] = 'Delete Stock'
         return context
+    
+    
 
 
 class StockDeleteView(View):                                                            # view class to delete stock
@@ -62,3 +77,24 @@ class StockDeleteView(View):                                                    
         stock.save()                                               
         messages.success(request, self.success_message)
         return redirect('inventory')
+    
+def audit_stock(request):
+    # Your view logic for auditing stocks
+    return render(request, 'audit_stock.html')
+
+
+
+class StockDetailView(SuccessMessageMixin, DetailView):
+    model = Stock
+    form_class = StockForm
+    template_name = "read.html"
+    success_url = '/inventory'
+    success_message = "Stock has been updated successfully"
+
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'View Stock'
+        context["savebtn"] = 'Audit Stock'
+        return context

@@ -13,6 +13,9 @@
         <div class="col-md-4">               
             <div style="float:right;"> <a class="btn btn-success" href="{% url 'new-stock' %}">Add New Equipment</a> </div>
         </div>
+        <!--<div class="col-md-4">               
+            <div style="float:left;"> <a class="btn btn-primary" href="{% url 'audit-stock' %}">Audit</a> </div>
+        </div>-->
     </div>
     
     <div style="border-bottom: 1px solid white;"></div>
@@ -35,32 +38,42 @@
         
         <thead class="thead-dark align-middle">
             <tr>
-                <th width="25%">Equipment Name</th>
-                <th>Equipment Details</th>
-                <th>Qr code</th>
-                <th>Currently At</th>
-                <th>Photos</th>
-              
-                <th>Actions</th>
+                <th width="5%">Equipment ID</th>
+                <th>Equipment Description</th>
+                <th>PO</th>
+                <th>Quantity</th>
+                <th>QR Code</th>
+                <th>Registration</th>
+                <th>Status</th>
+                <th>Remarks</th>
+                <th>Currently at</th>
+                {% comment %} <th>Photos</th> {% endcomment %}
+                <th>Audit Status</th>
             </tr>
         </thead>
                   
 {% if object_list %}
 
         <tbody>     <!-- Log on to codeastro.com for more projects -->    
+            
             {% for stock in object_list %}
                 <tr>
                     <td class="align-middle">
-                        <p>{{ stock.name }}</p>
+                        <p>{{ stock.id }}</p>
                     </td>
-                    <td class="align-middle">{{ stock.quantity }}</td>
+                    <td class="align-middle">{{ stock.description_of_item }}</td>
+                    <td class="align-middle">{{ stock.po }}</td>
+                    <td class="align-middle">{{ stock.quantity}}</td>
                     <td class="align-middle"><img style="width: 150px;" src="/media/{{stock.qrcode}}" alt="none"></td>
-                    <td class="align-middle">{{ stock.placedAt }}</td>
-                    <td class="align-middle"><img style="width: 150px;" src="/media/{{stock.img}}" alt="none"></td>
-                    <td class="align-middle">
-                        <a href="{% url 'edit-stock' stock.pk %}" class="btn btn-info btn-sm">View Details</a>
+                    <td class="align-middle">{{ stock.registration }}</td>
+                    <td class="align-middle">{{ stock.status}}</td>
+                    <!--<td class="align-middle"><img style="width: 150px;" src="/media/{{stock.img}}" alt="none"></td>-->
+                    <td class="align-middle">{{stock.remarks}}</td>
+                        <!--<a href="{% url 'edit-stock' stock.pk %}" class="btn btn-info btn-sm">View Details</a>
                         {% comment %} <a href="{% url 'delete-stock' stock.pk %}" class="btn btn-danger btn-sm"> Delete Equipment </a> {% endcomment %}
-                    </td>          
+                    </td>--> 
+                    <td class="align-middle">{{stock.location}}</td>
+                    <td class="align-middle">{{stock.audited}}</td>         
                 </tr>
             {% endfor %}                   
         </tbody>

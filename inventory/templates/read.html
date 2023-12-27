@@ -1,31 +1,25 @@
 {% extends "base.html" %}
 
-
 {% block title %} {{title}} {% endblock title %}
-
 
 {% block content %}
 
     <div style="color:#575757; font-style: bold; font-size: 3rem; border-bottom: 1px solid white;">{{title}}</div> 
     
-    <br><!-- Log on to codeastro.com for more projects -->
+    <br>
     
-    <form method="post" action="{% url 'new-stock'%}" method="post">
+    <form method="post">
     
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <!--<img src="/media/{{ form.qr }}" alt="none">-->
+        
         
         <div class="form-group">
             {{ form.description_of_item.errors }}
             <label for="{{ form.description_of_item.id_for_label }}">Description:</label>
             {{ form.description_of_item }}
         </div>
-        <!--<div class="form-group">
-            {{ form.img.errors }}
-            <label for="{{ form.img.id_for_label }}">Image</label>
-            {{ form.img }}
-        </div>-->
+        
         <div class="form-group ">
             {{ form.quantity.errors }}
             <label for="{{ form.quantity.id_for_label }}">Quantity:</label>
@@ -56,25 +50,45 @@
             {{ form.remarks }}
 
         </div>
-        <!--<div class="form-group ">
-            {{ form.qrcode.errors }}
-            <label for="{{ form.qrcode.id_for_label }}">Qrcode:</label>
-            {{ form.qrcode }}
-
-        </div>-->
-        <br><!-- Log on to codeastro.com for more projects -->
-
-        <div class="align-middle">
-            <button type="submit" class="btn btn-success">{{ savebtn }}</button>
-            {% if title == "New Stock" %}
-                {% comment %} <button type="reset" class="btn btn-danger" >Reset</button> {% endcomment %}
-            {% endif %}
-            {% if delbtn %}
-                {% comment %} <a href="{% url 'delete-stock' object.pk %}" class="btn  btn-danger"> Delete Equipment </a> {% endcomment %}
-            {% endif %}
-            {% comment %} <a href="{% url 'inventory' %}" class="btn btn-secondary">Cancel</a> {% endcomment %}
-        </div>
         
-    </form><!-- Log on to codeastro.com for more projects -->
+        
+            <br>
+            <div class="align-middle">
+                <button type="submit" class="btn btn-success">{{ savebtn }}</button>
+                {% if title == "View Stock" %}
+                    
+                {% endif %}
+                {% if delbtn %}
+                    
+                {% endif %}
+                
+            </div>
+        
+        
+    </form>
 
 {% endblock content %}
+
+<!-- read.html -->
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ stock.name }} Details</title>
+</head>
+<body>
+    <h1>{{ stock.name }} Details</h1>
+    <ul>
+        <li><strong>ID:</strong> {{ stock.id }}</li>
+        <li><strong>Name:</strong> {{ stock.name }}</li>
+        <li><strong>Quantity:</strong> {{ stock.quantity }}</li>
+        <li><strong>Price:</strong> {{ stock.price }}</li>
+        <!--Add more fields as needed -->
+    <!-- </ul>-->
+    <!-- <a href="{% url 'read-stock' pk=stock.id %}">Go back</a>
+</body>
+</html>-->
+
+
