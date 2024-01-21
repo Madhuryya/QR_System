@@ -8,7 +8,7 @@ from PIL import Image, ImageDraw
 
 class Stock(models.Model):
     id = models.AutoField(primary_key=True)
-    description_of_item = models.CharField(max_length=30, unique=True)
+    description_of_item = models.CharField(max_length=30, unique=False)
     po = models.CharField(max_length=100, unique=False, default="unknown")
     quantity = models.IntegerField(default=1)
     # img = models.ImageField(upload_to='qr_codes', blank=True)

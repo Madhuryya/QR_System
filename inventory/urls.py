@@ -10,5 +10,6 @@ urlpatterns = [
     path('stock/<pk>/delete', views.StockDeleteView.as_view(), name='delete-stock'),
     path('audit-stock/', views.audit_stock, name='audit-stock'),
     path('stock/<pk>/read/', views.StockDetailView.as_view(), name='read-stock'),
+    path('upload',views.simple_upload,name='upload')
 ]
 

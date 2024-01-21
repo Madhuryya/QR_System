@@ -14,6 +14,8 @@ from django_filters.views import FilterView
 from .filters import StockFilter
 from django.views.generic import DetailView
 from .forms import StockForm
+from .resources import StockResource
+from tablib import Dataset
 
 class StockListView(FilterView):
     filterset_class = StockFilter
@@ -98,3 +100,45 @@ class StockDetailView(SuccessMessageMixin, DetailView):
         context["title"] = 'View Stock'
         context["savebtn"] = 'Audit Stock'
         return context
+    
+def simple_upload(request):
+    print(request.FILES)  # Print request.FILES
+    print(request.POST)
+
+    if request.method == 'POST':
+        stock_resource = StockResource()
+        dataset = Dataset()
+        new_stock = request.FILES['myfile']
+
+        if not new_stock.name.endswith('xlsx'):
+            messages.error(request, 'Wrong format. Please upload an Excel file.')
+            return redirect('upload')  # Redirect back to the upload page on error
+
+        try:
+            imported_data = dataset.load(new_stock.read(), format='xlsx')
+            
+            for data in imported_data:
+                quantity_str = data[3]
+                quantity_value = int(quantity_str[1:-1]) if quantity_str.startswith('(') and quantity_str.endswith(')') else int(quantity_str)
+                value = Stock(
+                   data[0],  # Replace with the correct index based on your data structure
+                   data[1],
+                   data[2],
+                   data[3],
+                   data[4],
+                   data[5],
+                   data[6],
+                   data[7],
+                    # Repeat for other fields...
+                )
+                value.save()
+
+            messages.success(request, 'Stocks have been imported successfully.')
+            return redirect('upload')  # Redirect to the upload page after successful import
+
+        except Exception as e:
+            messages.error(request, f'Error importing stocks: {str(e)}')
+            return redirect('upload')  # Redirect back to the upload page on error
+
+    # Handle GET request
+    return render(request, 'upload.html')
